@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  rfqmicroservice
+  labels:
+    app: Rfq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Rfq
+  template:
+    metadata:
+      labels:
+        app: Rfq
+    spec:
+      containers:
+      - name: rfqcontainerregistry
+        image: rfqcontainerregistry.azurecr.io/rfqmgmt:latest
+        imagePullPolicy: Always 
+        resources:
+        env:
+          - name: DefaultConnection
+            value: "Server=tcp:rfqserver.database.windows.net,1433;Initial Catalog=RfqMicroService;Persist Security Info=False;User ID=rfq;Password={Supp@1234};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newrfq
+spec:
+  selector:
+    app: Rfq
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80

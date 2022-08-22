@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  suppliermicroservice
+  labels:
+    app: Supplier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Supplier
+  template:
+    metadata:
+      labels:
+        app: Supplier
+    spec:
+      containers:
+      - name: rfqcontainerregistry
+        image:  rfqcontainerregistry.azurecr.io/suppliermicroservice:latest
+        imagePullPolicy: Always 
+        resources:
+        env:
+          - name: DefaultConnection
+            value: "Server=tcp:rfqserver.database.windows.net,1433;Initial Catalog=SupplierMicroservice;Persist Security Info=False;User ID=rfq;Password={Supp@1234};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newsupplier
+spec:
+  selector:
+    app: Supplier
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80

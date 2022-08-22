@@ -1,0 +1,27 @@
+.Carousel11 {
+  width: 1300px;
+  height: 600px;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+body {
+    background-color: #c1e7e6;
+}
+.text1 {
+  position: absolute;
+  left: 410px;
+  top: 200px;
+  color: rgb(58, 27, 196);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+.imgg {
+  opacity: 10;
+}
+.bb {
+  position: absolute;
+  left: 640px;
+  top: 300px;
+  background-image: linear-gradient(135deg, #0acffe 10%, #495aff 100%);
+  color: black;
+}
